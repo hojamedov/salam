@@ -50,12 +50,9 @@ class PostAdapter
 
         Picasso.get().load(post.getPostimage()).into(holder.postImage)
 
-        if (post.getDescription().equals(""))
-        {
+        if (post.getDescription().equals("")) {
             holder.description.visibility = View.GONE
-        }
-        else
-        {
+        } else {
             holder.description.visibility = View.VISIBLE
             holder.description.setText(post.getDescription())
         }
@@ -64,25 +61,26 @@ class PostAdapter
         isLikes(post.getPostid(), holder.likeButton)
         numberOfLikes(holder.likes, post.getPostid())
         getTotalComments(holder.comments, post.getPostid())
-        
-                    holder.likeButton.setOnClickListener {
-                if (holder.likeButton.tag == "Like") {
-                    FirebaseDatabase.getInstance().reference
-                        .child("Likes")
-                        .child(post.getPostid())
-                        .child(firebaseUser!!.uid)
-                        .setValue(true)
-                } else {
-                    FirebaseDatabase.getInstance().reference
-                        .child("Likes")
-                        .child(post.getPostid())
-                        .child(firebaseUser!!.uid)
-                        .removeValue()
+        checkSavedStatus(post.getPostid(), holder.saveButton)
 
-                    val intent = Intent(mContext, MainActivity::class.java)
-                    mContext.startActivity(intent)
-                }
+        holder.likeButton.setOnClickListener {
+            if (holder.likeButton.tag == "Like") {
+                FirebaseDatabase.getInstance().reference
+                    .child("Likes")
+                    .child(post.getPostid())
+                    .child(firebaseUser!!.uid)
+                    .setValue(true)
+            } else {
+                FirebaseDatabase.getInstance().reference
+                    .child("Likes")
+                    .child(post.getPostid())
+                    .child(firebaseUser!!.uid)
+                    .removeValue()
+
+                val intent = Intent(mContext, MainActivity::class.java)
+                mContext.startActivity(intent)
             }
+        }
 
         holder.commentButton.setOnClickListener {
             val intentComment = Intent(mContext, CommentsActivity::class.java)
@@ -97,18 +95,34 @@ class PostAdapter
             intentComment.putExtra("publisherId", post.getPublisher())
             mContext.startActivity(intentComment)
         }
+
+        holder.saveButton.setOnClickListener {
+            if (holder.saveButton.tag == "Save")
+            {
+                FirebaseDatabase.getInstance().reference
+                    .child("Saves")
+                    .child(firebaseUser!!.uid)
+                    .child(post.getPostid())
+                    .setValue(true)
+            }
+            else
+            {
+                FirebaseDatabase.getInstance().reference
+                    .child("Saves")
+                    .child(firebaseUser!!.uid)
+                    .child(post.getPostid())
+                    .removeValue()
+            }
+        }
     }
 
-    private fun numberOfLikes(likes: TextView, postid: String)
-    {
+    private fun numberOfLikes(likes: TextView, postid: String) {
         val LikesRef = FirebaseDatabase.getInstance().reference
             .child("Likes").child(postid)
 
-        LikesRef.addValueEventListener(object : ValueEventListener
-        {
+        LikesRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists())
-                {
+                if (p0.exists()) {
                     likes.text = p0.childrenCount.toString() + " like"
                 }
             }
@@ -118,16 +132,13 @@ class PostAdapter
         })
     }
 
-    private fun getTotalComments(comments: TextView, postid: String)
-    {
+    private fun getTotalComments(comments: TextView, postid: String) {
         val commentsRef = FirebaseDatabase.getInstance().reference
             .child("Comments").child(postid)
 
-        commentsRef.addValueEventListener(object : ValueEventListener
-        {
+        commentsRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists())
-                {
+                if (p0.exists()) {
                     comments.text = "jemi " + p0.childrenCount.toString() + " teswir"
                 }
             }
@@ -137,22 +148,17 @@ class PostAdapter
         })
     }
 
-    private fun isLikes(postid: String, likeButton: ImageView)
-    {
+    private fun isLikes(postid: String, likeButton: ImageView) {
         val firebaseUser = FirebaseAuth.getInstance().currentUser
         val LikesRef = FirebaseDatabase.getInstance().reference
             .child("Likes").child(postid)
 
-        LikesRef.addValueEventListener(object : ValueEventListener
-        {
+        LikesRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
-                if (p0.child(firebaseUser!!.uid).exists())
-                {
+                if (p0.child(firebaseUser!!.uid).exists()) {
                     likeButton.setImageResource(R.drawable.heart_clicked)
                     likeButton.tag = "Liked"
-                }
-                else
-                {
+                } else {
                     likeButton.setImageResource(R.drawable.heart_not_clicked)
                     likeButton.tag = "Like"
                 }
@@ -206,6 +212,31 @@ class PostAdapter
                         .into(profileImage)
                     userName.text = user!!.getUsername()
                     publisher.text = user!!.getFullName()
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+        })
+    }
+
+    private fun checkSavedStatus(postid: String, imageView: ImageView) {
+        val savesRef = FirebaseDatabase.getInstance().reference
+            .child("Saves")
+            .child(firebaseUser!!.uid)
+
+        savesRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.child(postid).exists())
+                {
+                    imageView.setImageResource(R.drawable.save_large_icon)
+                    imageView.tag = "Saved"
+                }
+                else
+                {
+                    imageView.setImageResource(R.drawable.save_unfilled_large_icon)
+                    imageView.tag = "Save"
                 }
             }
 

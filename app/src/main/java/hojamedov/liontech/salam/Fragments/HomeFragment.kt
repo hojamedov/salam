@@ -34,16 +34,16 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        var recycleView: RecyclerView? = null
-        recycleView = view.findViewById(R.id.recycler_view_home)
+        var recyclerView: RecyclerView? = null
+        recyclerView = view.findViewById(R.id.recycler_view_home)
         val linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.reverseLayout = true
         linearLayoutManager.stackFromEnd = true
-        recycleView.layoutManager = linearLayoutManager
+        recyclerView.layoutManager = linearLayoutManager
 
         postList = ArrayList()
         postAdapter = context?.let { PostAdapter(it, postList as ArrayList<Post>) }
-        recycleView.adapter = postAdapter
+        recyclerView.adapter = postAdapter
 
         checkFollowings()
 
