@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Salam</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="teswirler">Teswirler</string>
+    <string name="teswiri_izi_azy">Teswiriňizi ýazyň...</string>
+    <string name="ne_ir_et">Neşir et</string>
+    <string name="g_zlemek">Gözlemek...</string>
+    <string name="surat">Surat</string>
+</resources>

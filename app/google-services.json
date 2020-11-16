@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "432231525186",
+    "firebase_url": "https://salam-c4d36.firebaseio.com",
+    "project_id": "salam-c4d36",
+    "storage_bucket": "salam-c4d36.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:432231525186:android:ed4bfd1f086860b04076db",
+        "android_client_info": {
+          "package_name": "hojamedov.liontech.salam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "432231525186-25436eai5tg0iqgu32fauvghkc0n60vn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hojamedov.liontech.salam",
+            "certificate_hash": "38ed7dd86c76edf3de9518f67a799fdac3f94c7f"
+          }
+        },
+        {
+          "client_id": "432231525186-ta1qo5m5lv851apmfbgdb5okpnemgtpb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWzKL_3OjyN4MIid85XrDMeoAxg56UAXE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "432231525186-ta1qo5m5lv851apmfbgdb5okpnemgtpb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
